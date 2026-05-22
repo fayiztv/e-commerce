@@ -1,8 +1,10 @@
 import express from "express";
 import {
+  getProfile,
   userLogin,
   userRegister,
 } from "../controllers/userControllers.js";
+import { protect } from "../middlewares/authMiddlewares.js";
 import { formValidator } from "../validations/authValidations.js";
 
 const router = express.Router();
@@ -13,5 +15,7 @@ router.post(
   formValidator(["name", "email", "password"]),
   userRegister,
 );
+
+router.get("/profile", protect, getProfile);
 
 export default router;

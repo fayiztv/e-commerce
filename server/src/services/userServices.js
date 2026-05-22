@@ -85,3 +85,30 @@ export const loginService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const profileService = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+
+    const user = await User.findById(id).select("-password");
+
+    if (!user) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: "No user found",
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "User details fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
