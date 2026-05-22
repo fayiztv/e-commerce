@@ -42,3 +42,46 @@ export const registerService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const loginService = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: "No user found",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return sendResponse({
+        res,
+        statusCode: 401,
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    const token = generateToken(user);
+
+    user.password = undefined;
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "login successful",
+      data: user,
+      token: token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
