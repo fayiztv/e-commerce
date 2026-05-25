@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+import { ref } from "node:process";
 
 const productSchema = new mongoose.Schema(
   {
@@ -19,6 +20,15 @@ const productSchema = new mongoose.Schema(
     stock: {
       type: Number,
       required: true,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    status: {
+      type: Boolean,
+      default: true,
     },
   },
   {
