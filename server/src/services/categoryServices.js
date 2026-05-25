@@ -22,11 +22,9 @@ export const createCategoryService = async (req, res, next) => {
   }
 };
 
-
 export const getCategoryService = async (req, res, next) => {
   try {
-
-    const categories = await Category.find()
+    const categories = await Category.find();
 
     return sendResponse({
       res,
@@ -34,6 +32,49 @@ export const getCategoryService = async (req, res, next) => {
       success: true,
       message: "Categories fetched successfully",
       data: categories,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateCategoryService = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { name, description, status } = req.body;
+
+    if (!id) {
+      return next(new Error("Id not found"));
+    }
+
+    const category = await Category.findByIdAndUpdate(
+      id,
+      {
+        name,
+        description,
+        status,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!category) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Category updated successfully",
+      data: category,
     });
   } catch (error) {
     next(error);

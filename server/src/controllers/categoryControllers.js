@@ -1,4 +1,4 @@
-import { createCategoryService, getCategoryService } from "../services/categoryServices.js"
+import { createCategoryService, getCategoryService, updateCategoryService } from "../services/categoryServices.js"
 
 export const createCategory = async (req, res, next) => {
     try {
@@ -11,6 +11,14 @@ export const createCategory = async (req, res, next) => {
 export const getCategories = async (req, res, next) => {
     try {
         getCategoryService(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updateCategory = async (req, res, next) => {
+    try {
+        updateCategoryService(req, res, next)
     } catch (error) {
         next(error)
     }
