@@ -112,3 +112,29 @@ export const GetProductDetailsService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const DeleteProductService = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "product not found",
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 201,
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

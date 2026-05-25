@@ -1,4 +1,4 @@
-import { createProductService, GetProductDetailsService, GetProductsService, updateProductService } from "../services/productServices.js"
+import { createProductService, DeleteProductService, GetProductDetailsService, GetProductsService, updateProductService } from "../services/productServices.js"
 
 export const createProduct = async (req, res, next) => {
     try {
@@ -27,6 +27,14 @@ export const updateProduct = async (req, res, next) => {
 export const GetProductDetails = async (req, res, next) => {
     try {
         GetProductDetailsService(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const DeleteProduct = async (req, res, next) => {
+    try {
+        DeleteProductService(req, res, next)
     } catch (error) {
         next(error)
     }
