@@ -56,7 +56,7 @@ export const updateCategoryService = async (req, res, next) => {
         status,
       },
       {
-        new: true,
+        returnDocument: "after"
       },
     );
 
