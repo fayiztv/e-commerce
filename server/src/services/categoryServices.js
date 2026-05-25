@@ -5,9 +5,9 @@ export const createCategoryService = async (req, res, next) => {
   try {
     const { name, description } = req.body;
 
-    const product = await Category.create({
+    const category = await Category.create({
       name,
-      description
+      description,
     });
 
     return sendResponse({
@@ -15,7 +15,25 @@ export const createCategoryService = async (req, res, next) => {
       statusCode: 201,
       success: true,
       message: "Category created successfully",
-      data: product,
+      data: category,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const getCategoryService = async (req, res, next) => {
+  try {
+
+    const categories = await Category.find()
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Categories fetched successfully",
+      data: categories,
     });
   } catch (error) {
     next(error);
