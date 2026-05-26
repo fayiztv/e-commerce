@@ -5,6 +5,18 @@ export const createCategoryService = async (req, res, next) => {
   try {
     const { name, description } = req.body;
 
+    const existingCategory = await Category.find(name);
+
+    if (existingCategory) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: "Category name already exists",
+        data: category,
+      });
+    }
+
     const category = await Category.create({
       name,
       description,
@@ -44,10 +56,6 @@ export const updateCategoryService = async (req, res, next) => {
 
     const { name, description, status } = req.body;
 
-    // if (!id) {
-    //   return next(new Error("Id not found"));
-    // }
-
     const category = await Category.findByIdAndUpdate(
       id,
       {
@@ -56,7 +64,7 @@ export const updateCategoryService = async (req, res, next) => {
         status,
       },
       {
-        returnDocument: "after"
+        returnDocument: "after",
       },
     );
 
@@ -84,11 +92,7 @@ export const updateCategoryService = async (req, res, next) => {
 export const deleteCategoryService = async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    // if (!id) {
-    //   return next(new Error("Id not found"));
-    // }
-
+    
     const category = await Category.findByIdAndDelete(id);
 
     if (!category) {
