@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/", protect, adminOnly, formValidator(["name", "description"]), createCategory)
 router.get("/", getCategories)
-router.put("/update/:id", protect, adminOnly, updateCategory)
+router.put("/update/:id", protect, adminOnly, formValidator(["name", "description", "status"]), updateCategory)
 router.delete("/delete/:id", protect, adminOnly, deleteCategory)
 
 export default router
