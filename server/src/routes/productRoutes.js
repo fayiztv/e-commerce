@@ -19,7 +19,7 @@ router.post(
   createProduct,
 );
 router.get("/", GetProducts);
-router.put(
+router.patch(
   "/update/:id",
   protect,
   adminOnly,
