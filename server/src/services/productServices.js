@@ -27,7 +27,7 @@ export const GetProductsService = async (req, res, next) => {
       res,
       statusCode: 201,
       success: true,
-      message: "Product created successfully",
+      message: "Products fetched successfully",
       data: product,
     });
   } catch (error) {
