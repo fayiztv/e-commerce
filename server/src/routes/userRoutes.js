@@ -5,7 +5,7 @@ import {
   userRegister,
 } from "../controllers/userControllers.js";
 import { protect } from "../middlewares/authMiddlewares.js";
-import { formValidator } from "../validations/authValidations.js";
+import { formValidator } from "../validators/validators.js";
 
 const router = express.Router();
 

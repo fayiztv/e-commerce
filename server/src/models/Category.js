@@ -13,9 +13,9 @@ const categorySchema = new mongoose.Schema(
       trim: true,
     },
     status: {
-        type: Boolean,
-        default: true      
-    }
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

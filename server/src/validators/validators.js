@@ -2,7 +2,7 @@ import sendResponse from "../utils/sendResponse.js";
 
 export const formValidator = (requiredFields) => {
   return (req, res, next) => {
-    requiredFields.forEach((element) => {
+    for (const element of requiredFields) {
       const value = req.body[element];
 
       if (typeof value === "string" && !value.trim()) {
@@ -20,8 +20,27 @@ export const formValidator = (requiredFields) => {
           message: `${element} is required`,
         });
       }
-    });
+    }
 
     next();
+  };
+};
+
+export const updateValidator = (allowedFields) => {
+  return (req, res, next) => {
+    for (const element of allowedFields) {
+      const value = req.body[element];
+
+      if (value !== undefined) {
+        if (typeof value === "string" && !value.trim()) {
+          return sendResponse({
+            res,
+            statusCode: 400,
+            success: false,
+            message: `${element} cannot be empty`,
+          });
+        }
+      }
+    }
   };
 };
