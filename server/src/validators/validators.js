@@ -2,6 +2,7 @@ import sendResponse from "../utils/sendResponse.js";
 
 export const formValidator = (requiredFields) => {
   return (req, res, next) => {
+
     for (const element of requiredFields) {
       const value = req.body[element];
 
@@ -28,8 +29,22 @@ export const formValidator = (requiredFields) => {
 
 export const updateValidator = (allowedFields) => {
   return (req, res, next) => {
-    for (const element of allowedFields) {
-      const value = req.body[element];
+
+    // const requestedFields = Object.keys(req.body)
+
+    // for (const field of requestedFields) {
+    //   if(!allowedFields.includes(field)) {
+    //     return sendResponse({
+    //         res,
+    //         statusCode: 400,
+    //         success: false,
+    //         message: `${field} is not allowed`,
+    //       }); 
+    //   }
+    // }
+
+    for (const field of allowedFields) {
+      const value = req.body[field];
 
       if (value !== undefined) {
         if (typeof value === "string" && !value.trim()) {
@@ -37,10 +52,11 @@ export const updateValidator = (allowedFields) => {
             res,
             statusCode: 400,
             success: false,
-            message: `${element} cannot be empty`,
+            message: `${field} cannot be empty`,
           });
         }
       }
     }
+    next()
   };
 };

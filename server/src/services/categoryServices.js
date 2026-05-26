@@ -3,24 +3,20 @@ import sendResponse from "../utils/sendResponse.js";
 
 export const createCategoryService = async (req, res, next) => {
   try {
-    const { name, description } = req.body;
+    const data = req.body;
 
-    const existingCategory = await Category.find(name);
+    const existingCategory = await Category.findOne({name: data.name});
 
     if (existingCategory) {
       return sendResponse({
         res,
         statusCode: 400,
         success: false,
-        message: "Category name already exists",
-        data: category,
+        message: "Category name already exists"
       });
     }
 
-    const category = await Category.create({
-      name,
-      description,
-    });
+    const category = await Category.create( data );
 
     return sendResponse({
       res,
@@ -36,7 +32,7 @@ export const createCategoryService = async (req, res, next) => {
 
 export const getCategoryService = async (req, res, next) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find({status: true});
 
     return sendResponse({
       res,
@@ -54,15 +50,11 @@ export const updateCategoryService = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const { name, description, status } = req.body;
+    const data = req.body;
 
     const category = await Category.findByIdAndUpdate(
       id,
-      {
-        name,
-        description,
-        status,
-      },
+      data,
       {
         returnDocument: "after",
       },
@@ -92,7 +84,7 @@ export const updateCategoryService = async (req, res, next) => {
 export const deleteCategoryService = async (req, res, next) => {
   try {
     const { id } = req.params;
-    
+
     const category = await Category.findByIdAndDelete(id);
 
     if (!category) {
