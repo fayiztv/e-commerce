@@ -20,7 +20,7 @@ router.post(
 );
 router.get("/", GetProducts);
 router.patch(
-  "/update/:id",
+  "/:id",
   protect,
   adminOnly,
   updateValidator([

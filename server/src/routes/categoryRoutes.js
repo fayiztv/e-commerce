@@ -19,12 +19,12 @@ router.post(
 );
 router.get("/", getCategories);
 router.patch(
-  "/update/:id",
+  "/:id",
   protect,
   adminOnly,
   updateValidator(["name", "description", "status"]),
   updateCategory,
 );
-router.delete("/delete/:id", protect, adminOnly, deleteCategory);
+router.delete("/:id", protect, adminOnly, deleteCategory);
 
 export default router;
