@@ -113,3 +113,53 @@ export const getCartService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateCartService = async (req, res, next) => {
+  try {
+
+    const userId = req.user.id
+    const { product, quantity } = req.body
+
+    // validting the product
+    const productData = await Product.findById(product);
+
+    if (!productData || !productData.status || productData.stock < 1) {
+
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Product unavailable or stock out",
+      });
+    }
+
+    const cart = await Cart.findOne({ user: userId });
+
+    const item = cart.items.find(
+      (item) => item.product.toHexString() === product.toString()
+    );
+
+    if (!item) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Product not found in cart"
+      });
+    }
+
+    item.quantity += quantity
+
+    await cart.save()
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Cart updated successfully",
+      data: cart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
