@@ -95,3 +95,21 @@ export const addToCartService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getCartService = async (req, res, next) => {
+  try {
+
+    const userId = req.user.id
+    const cart = await Cart.findOne({ user: userId });
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Categories fetched successfully",
+      data: cart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
