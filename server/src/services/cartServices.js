@@ -1,32 +1,21 @@
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
+import productValidator from "../utils/productValidator.js";
 import sendResponse from "../utils/sendResponse.js";
 
 export const addToCartService = async (req, res, next) => {
   try {
-
     const userId = req.user.id;
-    
+
     const { product } = req.body;
-    
+
     // validting the product
-    const productData = await Product.findById(product);
-
-    if (!productData || !productData.status || productData.stock < 1) {
-
-      return sendResponse({
-        res,
-        statusCode: 404,
-        success: false,
-        message: "Product unavailable or stock out",
-      });
-    }
+    const productData = await productValidator(res, product, 1)
 
     // checking if the user cart is there
     const existingCart = await Cart.findOne({ user: userId });
 
     if (!existingCart) {
-
       // if there no cart for the user, create new one
       const cart = await Cart.create({
         user: userId,
@@ -45,9 +34,7 @@ export const addToCartService = async (req, res, next) => {
         message: "Product added to cart successfully",
         data: cart,
       });
-
     } else {
-
       // if user cart is there
 
       // checking the product is there in the cart
@@ -56,7 +43,6 @@ export const addToCartService = async (req, res, next) => {
       );
 
       if (existingItem) {
-
         // if there is the product in the cart
         existingItem.quantity += 1;
 
@@ -67,11 +53,9 @@ export const addToCartService = async (req, res, next) => {
           statusCode: 200,
           success: true,
           message: "Cart updated successfully",
-          data: existingCart
+          data: existingCart,
         });
-
       } else {
-        
         // if there is no currentt product in the cart
         const newItem = {
           product: product,
@@ -79,7 +63,7 @@ export const addToCartService = async (req, res, next) => {
         };
 
         existingCart.items.push(newItem);
-        
+
         await existingCart.save();
 
         return sendResponse({
@@ -87,7 +71,7 @@ export const addToCartService = async (req, res, next) => {
           statusCode: 200,
           success: true,
           message: "Cart updated successfully",
-          data: existingCart
+          data: existingCart,
         });
       }
     }
@@ -98,15 +82,14 @@ export const addToCartService = async (req, res, next) => {
 
 export const getCartService = async (req, res, next) => {
   try {
-
-    const userId = req.user.id
+    const userId = req.user.id;
     const cart = await Cart.findOne({ user: userId });
 
     return sendResponse({
       res,
       statusCode: 200,
       success: true,
-      message: "Categories fetched successfully",
+      message: "User cart fetched successfully",
       data: cart,
     });
   } catch (error) {
@@ -116,47 +99,93 @@ export const getCartService = async (req, res, next) => {
 
 export const updateCartService = async (req, res, next) => {
   try {
+    const userId = req.user.id;
+    const { product, quantity } = req.body;
+    const parsedQuantity = Number(quantity);
+    const cart = await Cart.findOne({ user: userId });
 
-    const userId = req.user.id
-    const { product, quantity } = req.body
-
-    // validting the product
-    const productData = await Product.findById(product);
-
-    if (!productData || !productData.status || productData.stock < 1) {
-
+    // cart validatiom
+    if (!cart) {
       return sendResponse({
         res,
         statusCode: 404,
         success: false,
-        message: "Product unavailable or stock out",
+        message: "Cart not found",
       });
     }
 
-    const cart = await Cart.findOne({ user: userId });
+    // quantity validation
+    if (parsedQuantity <= 0) {
+      cart.items = cart.items.filter(
+        (item) => item.product.toString() !== product.toString(),
+      );
+
+      await cart.save();
+
+      return sendResponse({
+        res,
+        statusCode: 200,
+        success: true,
+        message: "Product removed from cart",
+        data: cart,
+      });
+    }
+
+    // validting the product
+    const productData = await productValidator(res, product, parsedQuantity)
 
     const item = cart.items.find(
-      (item) => item.product.toHexString() === product.toString()
+      (item) => item.product.toString() === product.toString(),
     );
 
+    // item validation
     if (!item) {
       return sendResponse({
         res,
         statusCode: 404,
         success: false,
-        message: "Product not found in cart"
+        message: "Product not found in cart",
       });
     }
 
-    item.quantity += quantity
+    item.quantity = parsedQuantity;
 
-    await cart.save()
+    await cart.save();
 
     return sendResponse({
       res,
       statusCode: 200,
       success: true,
       message: "Cart updated successfully",
+      data: cart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const clearCartService = async (req, res, next) => {  // add one product remove logic
+  try {
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "No user cart found",
+      });
+    }
+
+    cart.items = []
+    await cart.save()
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "User cart cleared successfully",
       data: cart,
     });
   } catch (error) {

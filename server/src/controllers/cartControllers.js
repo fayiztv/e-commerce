@@ -1,4 +1,4 @@
-import { addToCartService, getCartService, updateCartService } from "../services/cartServices.js"
+import { addToCartService, clearCartService, getCartService, updateCartService } from "../services/cartServices.js"
 
 export const addToCart = async (req, res, next) => {
     try {
@@ -19,6 +19,14 @@ export const getCart = async (req, res, next) => {
 export const updateCart = async (req, res, next) => {
     try {
         updateCartService(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const clearCart = async (req, res, next) => {
+    try {
+        clearCartService(req, res, next)
     } catch (error) {
         next(error)
     }
