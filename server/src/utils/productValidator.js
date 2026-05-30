@@ -1,4 +1,4 @@
-import Product from "../models/Product";
+import Product from "../models/Product.js";
 
 const productValidator = async (res, product, quantity) => {
   const productData = await Product.findById(product);

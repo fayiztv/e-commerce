@@ -164,7 +164,37 @@ export const updateCartService = async (req, res, next) => {
   }
 };
 
-export const clearCartService = async (req, res, next) => {  // add one product remove logic
+export const removeCartItemService = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ user: userId });
+    const product = req.params
+
+    if (!cart) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "No user cart found",
+      });
+    }
+
+    cart.items = cart.items.filter((item) => item.product.toString() !== product.toString())
+    await cart.save()
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Product removed from cart",
+      data: cart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const clearCartService = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ user: userId });
