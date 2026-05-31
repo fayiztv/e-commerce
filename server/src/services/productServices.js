@@ -21,7 +21,10 @@ export const createProductService = async (req, res, next) => {
 
 export const GetProductsService = async (req, res, next) => {
   try {
-    const product = await Product.find({status: true});
+    const product = await Product.find({status: true}).populate({
+      path: "category",
+      select: "name"
+    });
 
     return sendResponse({
       res,

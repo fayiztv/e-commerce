@@ -15,7 +15,7 @@ router.post(
   "/",
   protect,
   adminOnly,
-  formValidator(["name", "description", "price", "stock", "categoryId"]),
+  formValidator(["name", "description", "price", "stock", "category"]),
   createProduct,
 );
 router.get("/", GetProducts);
@@ -28,7 +28,7 @@ router.patch(
     "description",
     "price",
     "stock",
-    "categoryId",
+    "category",
     "status",
   ]),
   updateProduct,

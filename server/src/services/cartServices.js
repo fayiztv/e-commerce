@@ -10,7 +10,7 @@ export const addToCartService = async (req, res, next) => {
     const { product } = req.body;
 
     // validting the product
-    const productData = await productValidator(res, product, 1)
+    const productData = await productValidator(product, 1)
 
     // checking if the user cart is there
     const existingCart = await Cart.findOne({ user: userId });
@@ -83,7 +83,14 @@ export const addToCartService = async (req, res, next) => {
 export const getCartService = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const cart = await Cart.findOne({ user: userId });
+    const cart = await Cart.findOne({ user: userId }).populate({
+      path: "items.product",
+      select: "name category description",
+      populate: {
+        path: "category",
+        select: "name"
+      }
+    });
 
     return sendResponse({
       res,
@@ -132,7 +139,7 @@ export const updateCartService = async (req, res, next) => {
     }
 
     // validting the product
-    const productData = await productValidator(res, product, parsedQuantity)
+    const productData = await productValidator(product, parsedQuantity)
 
     const item = cart.items.find(
       (item) => item.product.toString() === product.toString(),
