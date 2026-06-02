@@ -115,7 +115,7 @@ export const createOrderService = async (req, res, next) => {
       shippingAddress,
     });
 
-    // // reducing the stock of the product after creating the order
+    // // decrement the stock of the product after creating the order
     for (const item of items) {
       await Product.findByIdAndUpdate(item.productId, {
         $inc: {
@@ -231,7 +231,7 @@ export const updateOrderStatusService = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const { status } = req.body;
+    const status = req.body.status;
 
     const order = await Order.findByIdAndUpdate(
       id,
