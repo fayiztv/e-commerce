@@ -1,4 +1,5 @@
 import {
+  cancelOrderService,
   createOrderService,
   getAllOrdersService,
   getMyOrderDetailsService,
@@ -27,6 +28,14 @@ export const getMyOrders = async (req, res, next) => {
 export const getMyOrderDetails = async (req, res, next) => {
   try {
     getMyOrderDetailsService(req, res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const cancelOrder = async (req, res, next) => {
+  try {
+    cancelOrderService(req, res, next);
   } catch (error) {
     next(error);
   }

@@ -184,6 +184,62 @@ export const getMyOrderDetailsService = async (req, res, next) => {
   }
 };
 
+export const cancelOrderService = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const order = await Order.findOne({
+      _id: id,
+      user: req.user.id,
+    });
+
+    if (!order) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    const nonCancellableStatuses = ["shipped", "delivered", "cancelled"];
+
+    if (nonCancellableStatuses.includes(order.orderStatus)) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: `${order.orderStatus} order cannot be cancelled`,
+      });
+    }
+
+    order.orderStatus = "cancelled";
+    order.cancelledAt = new Date();
+
+    await order.save();
+
+    // // increment the stock of the product after creating the order
+    for (const item of order.items) {
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: {
+          stock: item.quantity,
+        },
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Order cancelled successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 // admin order api services
 export const getAllOrdersService = async (req, res, next) => {
   try {

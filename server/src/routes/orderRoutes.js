@@ -1,6 +1,14 @@
 import express from "express";
 import { adminOnly, protect } from "../middlewares/authMiddlewares.js";
-import { createOrder, getallOrder, getMyOrders, getMyOrderDetails, getOrderDetails, updateOrderStatus,  } from "../controllers/orderControllers.js";
+import {
+  createOrder,
+  getallOrder,
+  getMyOrders,
+  getMyOrderDetails,
+  getOrderDetails,
+  updateOrderStatus,
+  cancelOrder,
+} from "../controllers/orderControllers.js";
 
 const router = express.Router();
 
@@ -13,5 +21,6 @@ router.patch("/admin/:id", protect, adminOnly, updateOrderStatus);
 router.post("/", protect, createOrder);
 router.get("/", protect, getMyOrders);
 router.get("/:id", protect, getMyOrderDetails);
+router.patch("/:id", protect, cancelOrder);
 
 export default router;

@@ -16,8 +16,8 @@ const orderItemSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     quantity: {
       type: Number,
@@ -85,6 +85,10 @@ const orderSchema = new mongoose.Schema(
         "cancelled",
       ],
       default: "pending",
+    },
+    cancelledAt: {
+      type: Date,
+      default: null,
     },
   },
   {
