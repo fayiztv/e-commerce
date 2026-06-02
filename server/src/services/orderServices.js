@@ -70,12 +70,12 @@ export const createOrderService = async (req, res, next) => {
         });
       }
 
-      if (requestedItem.quantity > cartItem.quantity) {
+      if (requestedItem.quantity != cartItem.quantity) {
         return sendResponse({
           res,
           statusCode: 400,
           success: false,
-          message: "Requested quantity exceeds cart quantity",
+          message: "Requested quantity and cart quantity are not same",
         });
       }
 
@@ -135,6 +135,23 @@ export const createOrderService = async (req, res, next) => {
       success: true,
       message: "Order created successfully",
       data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMyOrdersService = async (req, res, next) => {
+  try {
+    
+    const orders = await Order.find({user: req.user.id});
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Orders fetched successfully",
+      data: orders,
     });
   } catch (error) {
     next(error);
