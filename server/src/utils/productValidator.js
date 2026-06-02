@@ -1,7 +1,10 @@
 import Product from "../models/Product.js";
 
 const productValidator = async (product, quantity) => {
-  const productData = await Product.findById(product);
+  const productData = await Product.findById(product).populate({
+    path: "category",
+    select: "name",
+  });
 
   if (!productData) {
     throw new Error("Product not found");

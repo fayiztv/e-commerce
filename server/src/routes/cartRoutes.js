@@ -1,11 +1,5 @@
 import express from "express";
 import { protect } from "../middlewares/authMiddlewares.js";
-import {
-  createCategory,
-  deleteCategory,
-  getCategories,
-  updateCategory,
-} from "../controllers/categoryControllers.js";
 import { addToCart, clearCart, getCart, removeCartItem, updateCart } from "../controllers/cartControllers.js";
 
 const router = express.Router();

@@ -1,0 +1,142 @@
+import Cart from "../models/Cart.js";
+import Order from "../models/Order.js";
+import Product from "../models/Product.js";
+import generateOrderNumber from "../utils/generateOrderNumber.js";
+import productValidator from "../utils/productValidator.js";
+import sendResponse from "../utils/sendResponse.js";
+
+export const createOrderService = async (req, res, next) => {
+  try {
+    const { items, shippingAddress } = req.body;
+    const userId = req.user.id;
+
+    // validate the items
+    if (!items || items.length === 0) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: "No products selected",
+      });
+    }
+
+    if (!shippingAddress) {
+      return sendResponse({
+        res,
+        statusCode: 400,
+        success: false,
+        message: "Shipping address is required",
+      });
+    }
+
+    const orderItems = [];
+    let totalAmount = 0;
+    const orderedProducts = [];
+
+    // validate the cart
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart || cart.items.length === 0) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "User cart is emptyy",
+      });
+    }
+
+    // product management from the items
+    for (const requestedItem of items) {
+      const cartItem = cart.items.find(
+        (item) =>
+          item.product.toString() === requestedItem.productId.toString(),
+      );
+
+      if (!cartItem) {
+        return sendResponse({
+          res,
+          statusCode: 404,
+          success: false,
+          message: "Product not found in cart",
+        });
+      }
+
+      if (requestedItem.quantity <= 0) {
+        return sendResponse({
+          res,
+          statusCode: 400,
+          success: false,
+          message: "Invalid quantity",
+        });
+      }
+
+      if (requestedItem.quantity > cartItem.quantity) {
+        return sendResponse({
+          res,
+          statusCode: 400,
+          success: false,
+          message: "Requested quantity exceeds cart quantity",
+        });
+      }
+
+      // // checking the product availablity even validated while adding to the cart
+      const productData = await productValidator(
+        requestedItem.productId,
+        requestedItem.quantity,
+      );
+
+      const totalPrice = productData.price * requestedItem.quantity;
+
+      // // setting up the items
+      orderItems.push({
+        productId: productData._id,
+        product: productData.name,
+        category: productData.category.name,
+        price: productData.price,
+        quantity: requestedItem.quantity,
+        totalPrice: totalPrice,
+      });
+
+      totalAmount += totalPrice;
+
+      orderedProducts.push(productData._id.toString());
+    }
+
+    // // generating number for the order
+    const orderNumber = generateOrderNumber();
+
+    // // creating the order
+    const order = await Order.create({
+      orderNumber,
+      user: userId,
+      items: orderItems,
+      totalAmount,
+      shippingAddress,
+    });
+
+    // // reducing the stock of the product after creating the order
+    for (const item of items) {
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: {
+          stock: -item.quantity,
+        },
+      });
+    }
+
+    // // removing the product from the cart after creating the order
+    cart.items = cart.items.filter(
+      (item) => !orderedProducts.includes(item.product.toString()),
+    );
+    await cart.save();
+
+    return sendResponse({
+      res,
+      statusCode: 201,
+      success: true,
+      message: "Order created successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
