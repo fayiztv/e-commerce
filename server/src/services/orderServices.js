@@ -143,8 +143,7 @@ export const createOrderService = async (req, res, next) => {
 
 export const getMyOrdersService = async (req, res, next) => {
   try {
-    
-    const orders = await Order.find({user: req.user.id});
+    const orders = await Order.find({ user: req.user.id });
 
     return sendResponse({
       res,
@@ -160,14 +159,23 @@ export const getMyOrdersService = async (req, res, next) => {
 
 export const getMyOrderDetailsService = async (req, res, next) => {
   try {
-    const orderId = req.params
-    const order = await Order.findOne(orderId);
+    const { id } = req.params;
+    const order = await Order.findOne({ _id: id, user: req.user.id });
+
+    if (!order) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Order not found",
+      });
+    }
 
     return sendResponse({
       res,
       statusCode: 200,
       success: true,
-      message: "Orders fetched successfully",
+      message: "Order details fetched successfully",
       data: order,
     });
   } catch (error) {
@@ -175,11 +183,9 @@ export const getMyOrderDetailsService = async (req, res, next) => {
   }
 };
 
-
 // admin order api services
 export const getAllOrdersService = async (req, res, next) => {
   try {
-
     const orders = await Order.find();
 
     return sendResponse({
@@ -188,6 +194,32 @@ export const getAllOrdersService = async (req, res, next) => {
       success: true,
       message: "Orders fetched successfully",
       data: orders,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrderDetailsService = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Order details fetched successfully",
+      data: order,
     });
   } catch (error) {
     next(error);
