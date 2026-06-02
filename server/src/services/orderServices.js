@@ -5,6 +5,7 @@ import generateOrderNumber from "../utils/generateOrderNumber.js";
 import productValidator from "../utils/productValidator.js";
 import sendResponse from "../utils/sendResponse.js";
 
+// user order apis services
 export const createOrderService = async (req, res, next) => {
   try {
     const { items, shippingAddress } = req.body;
@@ -219,6 +220,43 @@ export const getOrderDetailsService = async (req, res, next) => {
       statusCode: 200,
       success: true,
       message: "Order details fetched successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderStatusService = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { status } = req.body;
+
+    const order = await Order.findByIdAndUpdate(
+      id,
+      {
+        orderStatus: status,
+      },
+      {
+        returnDocument: "after",
+      },
+    );
+
+    if (!order) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Order updated successfully",
       data: order,
     });
   } catch (error) {

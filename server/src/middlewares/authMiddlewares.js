@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const adminOnly = (req, res, next) => {
   if (!req.user.isAdmin) {
-    sendResponse({
+    return sendResponse({
       res,
       statusCode: 400,
       success: false,
@@ -17,7 +17,7 @@ export const protect = (req, res, next) => {
   try {
     const authheader = req.headers.authorization;
     if (!authheader) {
-      sendResponse({
+    return sendResponse({
         res,
         statusCode: 401,
         success: false,
