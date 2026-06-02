@@ -157,3 +157,20 @@ export const getMyOrdersService = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getMyOrderDetailsService = async (req, res, next) => {
+  try {
+    const orderId = req.params
+    const order = await Order.findOne(orderId);
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Orders fetched successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
