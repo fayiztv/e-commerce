@@ -174,3 +174,22 @@ export const getMyOrderDetailsService = async (req, res, next) => {
     next(error);
   }
 };
+
+
+// admin order api services
+export const getAllOrdersService = async (req, res, next) => {
+  try {
+
+    const orders = await Order.find();
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Orders fetched successfully",
+      data: orders,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

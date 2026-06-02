@@ -1,4 +1,4 @@
-import { createOrderService, getMyOrderDetailsService, getMyOrdersService,  } from "../services/orderServices.js"
+import { createOrderService, getAllOrdersService, getMyOrderDetailsService, getMyOrdersService,  } from "../services/orderServices.js"
 
 // user order apis controllers
 export const createOrder = async (req, res, next) => {
@@ -20,6 +20,15 @@ export const getMyOrder = async (req, res, next) => {
 export const getMyOrderDetails = async (req, res, next) => {
     try {
         getMyOrderDetailsService(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+}
+
+// admin order apis controllers
+export const getallOrder = async (req, res, next) => {
+    try {
+        getAllOrdersService(req, res, next)
     } catch (error) {
         next(error)
     }
