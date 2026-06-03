@@ -5,7 +5,7 @@ export const adminOnly = (req, res, next) => {
   if (!req.user.isAdmin) {
     return sendResponse({
       res,
-      statusCode: 400,
+      statusCode: 403,
       success: false,
       message: "No access",
     });

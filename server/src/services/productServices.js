@@ -28,7 +28,7 @@ export const getProductsService = async (req, res, next) => {
 
     return sendResponse({
       res,
-      statusCode: 201,
+      statusCode: 200,
       success: true,
       message: "Products fetched successfully",
       data: product,
@@ -90,7 +90,7 @@ export const getProductDetailsService = async (req, res, next) => {
 
     return sendResponse({
       res,
-      statusCode: 201,
+      statusCode: 200,
       success: true,
       message: "Product details fetched successfully",
       data: product,
@@ -117,7 +117,7 @@ export const deleteProductService = async (req, res, next) => {
 
     return sendResponse({
       res,
-      statusCode: 201,
+      statusCode: 204,
       success: true,
       message: "Product deleted successfully",
     });

@@ -21,7 +21,7 @@ export const adminLoginService = async (req, res, next) => {
     if (!admin.isAdmin) {
       return sendResponse({
         res,
-        statusCode: 400,
+        statusCode: 403,
         success: false,
         message: "No access",
       });

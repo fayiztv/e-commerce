@@ -94,7 +94,7 @@ export const deleteCategoryService = async (req, res, next) => {
 
     return sendResponse({
       res,
-      statusCode: 200,
+      statusCode: 204,
       success: true,
       message: "Category deleted successfully",
     });

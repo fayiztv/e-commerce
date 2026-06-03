@@ -52,7 +52,7 @@ export const loginService = async (req, res, next) => {
     if (!user) {
       return sendResponse({
         res,
-        statusCode: 400,
+        statusCode: 404,
         success: false,
         message: "No user found",
       });
@@ -95,7 +95,7 @@ export const profileService = async (req, res, next) => {
     if (!user) {
       return sendResponse({
         res,
-        statusCode: 400,
+        statusCode: 404,
         success: false,
         message: "No user found",
       });

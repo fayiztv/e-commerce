@@ -30,19 +30,6 @@ export const formValidator = (requiredFields) => {
 export const updateValidator = (allowedFields) => {
   return (req, res, next) => {
 
-    // const requestedFields = Object.keys(req.body)
-
-    // for (const field of requestedFields) {
-    //   if(!allowedFields.includes(field)) {
-    //     return sendResponse({
-    //         res,
-    //         statusCode: 400,
-    //         success: false,
-    //         message: `${field} is not allowed`,
-    //       }); 
-    //   }
-    // }
-
     for (const field of allowedFields) {
       const value = req.body[field];
 
