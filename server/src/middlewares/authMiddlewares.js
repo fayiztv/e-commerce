@@ -17,7 +17,7 @@ export const protect = (req, res, next) => {
   try {
     const authheader = req.headers.authorization;
     if (!authheader) {
-    return sendResponse({
+      return sendResponse({
         res,
         statusCode: 401,
         success: false,
@@ -34,7 +34,7 @@ export const protect = (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    sendResponse({
+    return sendResponse({
       res,
       statusCode: 500,
       success: false,

@@ -2,9 +2,9 @@ import express from "express";
 import { adminOnly, protect } from "../middlewares/authMiddlewares.js";
 import {
   createProduct,
-  DeleteProduct,
-  GetProductDetails,
-  GetProducts,
+  deleteProduct,
+  getProductDetails,
+  getProducts,
   updateProduct,
 } from "../controllers/productControllers.js";
 import { formValidator, updateValidator } from "../validators/validators.js";
@@ -18,7 +18,7 @@ router.post(
   formValidator(["name", "description", "price", "stock", "category"]),
   createProduct,
 );
-router.get("/", GetProducts);
+router.get("/", getProducts);
 router.patch(
   "/:id",
   protect,
@@ -33,7 +33,7 @@ router.patch(
   ]),
   updateProduct,
 );
-router.get("/:id", GetProductDetails);
-router.delete("/:id", protect, adminOnly, DeleteProduct);
+router.get("/:id", getProductDetails);
+router.delete("/:id", protect, adminOnly, deleteProduct);
 
 export default router;

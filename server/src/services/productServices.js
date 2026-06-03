@@ -19,7 +19,7 @@ export const createProductService = async (req, res, next) => {
   }
 };
 
-export const GetProductsService = async (req, res, next) => {
+export const getProductsService = async (req, res, next) => {
   try {
     const product = await Product.find({status: true}).populate({
       path: "category",
@@ -73,7 +73,7 @@ export const updateProductService = async (req, res, next) => {
   }
 };
 
-export const GetProductDetailsService = async (req, res, next) => {
+export const getProductDetailsService = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -100,7 +100,7 @@ export const GetProductDetailsService = async (req, res, next) => {
   }
 };
 
-export const DeleteProductService = async (req, res, next) => {
+export const deleteProductService = async (req, res, next) => {
   try {
     const { id } = req.params;
 

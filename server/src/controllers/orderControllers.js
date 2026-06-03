@@ -10,58 +10,30 @@ import {
 
 // user order apis controllers
 export const createOrder = async (req, res, next) => {
-  try {
-    createOrderService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await createOrderService(req, res, next);
 };
 
 export const getMyOrders = async (req, res, next) => {
-  try {
-    getMyOrdersService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await getMyOrdersService(req, res, next);
 };
 
 export const getMyOrderDetails = async (req, res, next) => {
-  try {
-    getMyOrderDetailsService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await getMyOrderDetailsService(req, res, next);
 };
 
 export const cancelOrder = async (req, res, next) => {
-  try {
-    cancelOrderService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await cancelOrderService(req, res, next);
 };
 
 // admin order apis controllers
 export const getallOrder = async (req, res, next) => {
-  try {
-    getAllOrdersService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await getAllOrdersService(req, res, next);
 };
 
 export const getOrderDetails = async (req, res, next) => {
-  try {
-    getOrderDetailsService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await getOrderDetailsService(req, res, next);
 };
 
 export const updateOrderStatus = async (req, res, next) => {
-  try {
-    updateOrderStatusService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await updateOrderStatusService(req, res, next);
 };

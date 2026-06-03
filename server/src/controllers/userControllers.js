@@ -5,25 +5,13 @@ import {
 } from "../services/userServices.js";
 
 export const userRegister = async (req, res, next) => {
-  try {
-    registerService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await registerService(req, res, next);
 };
 
 export const userLogin = async (req, res, next) => {
-  try {
-    loginService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await loginService(req, res, next);
 };
 
 export const getProfile = async (req, res, next) => {
-  try {
-    profileService(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  await profileService(req, res, next);
 };

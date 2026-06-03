@@ -21,6 +21,7 @@ export const createOrderService = async (req, res, next) => {
       });
     }
 
+    // validate the shipping address
     if (!shippingAddress) {
       return sendResponse({
         res,

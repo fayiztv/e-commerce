@@ -10,7 +10,7 @@ export const addToCartService = async (req, res, next) => {
     const { product } = req.body;
 
     // validting the product
-    const productData = await productValidator(product, 1)
+    const productData = await productValidator(product, 1);
 
     // checking if the user cart is there
     const existingCart = await Cart.findOne({ user: userId });
@@ -88,8 +88,8 @@ export const getCartService = async (req, res, next) => {
       select: "name category description",
       populate: {
         path: "category",
-        select: "name"
-      }
+        select: "name",
+      },
     });
 
     return sendResponse({
@@ -139,7 +139,7 @@ export const updateCartService = async (req, res, next) => {
     }
 
     // validting the product
-    const productData = await productValidator(product, parsedQuantity)
+    const productData = await productValidator(product, parsedQuantity);
 
     const item = cart.items.find(
       (item) => item.product.toString() === product.toString(),
@@ -175,7 +175,7 @@ export const removeCartItemService = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ user: userId });
-    const product = req.params
+    const product = req.params;
 
     if (!cart) {
       return sendResponse({
@@ -186,8 +186,10 @@ export const removeCartItemService = async (req, res, next) => {
       });
     }
 
-    cart.items = cart.items.filter((item) => item.product.toString() !== product.toString())
-    await cart.save()
+    cart.items = cart.items.filter(
+      (item) => item.product.toString() !== product.toString(),
+    );
+    await cart.save();
 
     return sendResponse({
       res,
@@ -215,8 +217,8 @@ export const clearCartService = async (req, res, next) => {
       });
     }
 
-    cart.items = []
-    await cart.save()
+    cart.items = [];
+    await cart.save();
 
     return sendResponse({
       res,

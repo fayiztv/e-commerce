@@ -1,41 +1,27 @@
-import { createProductService, DeleteProductService, GetProductDetailsService, GetProductsService, updateProductService } from "../services/productServices.js"
+import {
+  createProductService,
+  deleteProductService,
+  getProductDetailsService,
+  getProductsService,
+  updateProductService,
+} from "../services/productServices.js";
 
 export const createProduct = async (req, res, next) => {
-    try {
-        createProductService(req, res, next)
-    } catch (error) {
-        next(error)
-    }
-}
+  await createProductService(req, res, next);
+};
 
-export const GetProducts = async (req, res, next) => {
-    try {
-        GetProductsService(req, res, next)
-    } catch (error) {
-        next(error)
-    }
-}
+export const getProducts = async (req, res, next) => {
+  await getProductsService(req, res, next);
+};
 
 export const updateProduct = async (req, res, next) => {
-    try {
-        updateProductService(req, res, next)
-    } catch (error) {
-        next(error)
-    }
-}
+  await updateProductService(req, res, next);
+};
 
-export const GetProductDetails = async (req, res, next) => {
-    try {
-        GetProductDetailsService(req, res, next)
-    } catch (error) {
-        next(error)
-    }
-}
+export const getProductDetails = async (req, res, next) => {
+  await getProductDetailsService(req, res, next);
+};
 
-export const DeleteProduct = async (req, res, next) => {
-    try {
-        DeleteProductService(req, res, next)
-    } catch (error) {
-        next(error)
-    }
-}
+export const deleteProduct = async (req, res, next) => {
+  await deleteProductService(req, res, next);
+};
