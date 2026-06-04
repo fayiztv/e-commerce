@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import sendResponse from "../utils/sendResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -13,7 +14,7 @@ export const adminOnly = (req, res, next) => {
   next();
 };
 
-export const protect = (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     const authheader = req.headers.authorization;
     if (!authheader) {
@@ -29,8 +30,10 @@ export const protect = (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = decoded;
-
+    const userData = await User.findById(decoded.id).select("id email isAdmin")
+    
+    req.user = userData;
+    
     next();
   } catch (error) {
     console.log(error);
@@ -38,7 +41,7 @@ export const protect = (req, res, next) => {
       res,
       statusCode: 500,
       success: false,
-      message: "Sorry! Server Error",
+      message: error.message || "Sorry! Server Error",
     });
   }
 };
