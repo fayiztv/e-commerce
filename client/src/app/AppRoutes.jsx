@@ -1,0 +1,54 @@
+import { Route, Routes } from "react-router-dom";
+import UserLayout from "../layouts/UserLayout";
+import Home from "../pages/user/Home";
+import ProductsPage from "../pages/user/Products";
+import ProductDetailsPage from "../pages/user/ProductDetails";
+import CartPage from "../pages/user/Cart";
+import ProfilePage from "../pages/user/Profile";
+import UserPrivatRoute from "../components/private/UserPrivatRoute";
+import LoginPage from "../pages/Login";
+import RegisterPage from "../pages/user/Register";
+import AdminPrivatRoute from "../components/private/AdminPrivatRoute";
+import AdminLayout from "../layouts/AdminLayout";
+import DashboardPage from "../pages/admin/Dashboard";
+import AdminProducts from "../pages/admin/AdminProducts";
+import AdminProductForm from "../pages/admin/AdminProductForm";
+import AdminCategories from "../pages/admin/AdminCategories";
+import AdminOrders from "../pages/admin/AdminOrders";
+
+export default function AppRoutes() {
+  return (
+    <>
+      <Routes>
+        // user routes
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
+
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/produt/:id" element={<ProductDetailsPage />} />
+
+          <Route element={<UserPrivatRoute />}>
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+
+        </Route>
+
+        // admin routess
+        <Route path="/admin" element={<AdminPrivatRoute/>}>
+            <Route element={<AdminLayout/>}>
+              <Route path="" element={<DashboardPage/>}/>
+              <Route path="dashboard" element={<DashboardPage/>}/>
+              <Route path="products" element={<AdminProducts/>}/>
+              <Route path="products/new" element={<AdminProductForm/>}/>
+              <Route path="products/:id" element={<AdminProductForm/>}/>
+              <Route path="categories" element={<AdminCategories/>}/>
+              <Route path="orders" element={<AdminOrders/>}/>
+            </Route>
+        </Route>
+      </Routes>
+    </>
+  );
+}
