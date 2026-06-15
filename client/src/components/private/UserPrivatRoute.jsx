@@ -1,7 +1,8 @@
+import { Outlet } from "react-router-dom";
 
 
 export default function UserPrivatRoute() {
   return (
-    <div>UserPrivatRoute</div>
+    <Outlet/>
   )
 }
