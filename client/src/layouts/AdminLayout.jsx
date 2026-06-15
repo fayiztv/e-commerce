@@ -3,7 +3,7 @@ import AdminSideBar from "../components/admin/AdminSideBar";
 
 export default function AdminLayout() {
   return (
-    <div>
+    <div className="md:flex">
       <AdminSideBar />
 
       <main className="flex-1 p-8 bg-gray-50 min-h-screen">
