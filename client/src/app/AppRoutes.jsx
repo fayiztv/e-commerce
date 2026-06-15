@@ -6,7 +6,7 @@ import ProductDetailsPage from "../pages/user/ProductDetails";
 import CartPage from "../pages/user/Cart";
 import ProfilePage from "../pages/user/Profile";
 import UserPrivatRoute from "../components/private/UserPrivatRoute";
-import LoginPage from "../pages/Login";
+import LoginPage from "../pages/user/Login";
 import RegisterPage from "../pages/user/Register";
 import AdminPrivatRoute from "../components/private/AdminPrivatRoute";
 import AdminLayout from "../layouts/AdminLayout";
@@ -15,6 +15,7 @@ import AdminProducts from "../pages/admin/AdminProducts";
 import AdminProductForm from "../pages/admin/AdminProductForm";
 import AdminCategories from "../pages/admin/AdminCategories";
 import AdminOrders from "../pages/admin/AdminOrders";
+import AdminLoginPage from "../pages/admin/AdminLogin";
 
 export default function AppRoutes() {
   return (
@@ -37,6 +38,9 @@ export default function AppRoutes() {
         </Route>
 
         // admin routess
+
+        <Route path="admin/login" element={<AdminLoginPage/>}/>
+
         <Route path="/admin" element={<AdminPrivatRoute/>}>
             <Route element={<AdminLayout/>}>
               <Route path="" element={<DashboardPage/>}/>
