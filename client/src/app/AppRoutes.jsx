@@ -16,6 +16,7 @@ import AdminProductForm from "../pages/admin/AdminProductForm";
 import AdminCategories from "../pages/admin/AdminCategories";
 import AdminOrders from "../pages/admin/AdminOrders";
 import AdminLoginPage from "../pages/admin/AdminLogin";
+import AdminOrderDetails from "../pages/admin/AdminOrderDetails";
 
 export default function AppRoutes() {
   return (
@@ -50,6 +51,7 @@ export default function AppRoutes() {
               <Route path="products/:id" element={<AdminProductForm/>}/>
               <Route path="categories" element={<AdminCategories/>}/>
               <Route path="orders" element={<AdminOrders/>}/>
+              <Route path="orders/:id" element={<AdminOrderDetails/>}/>
             </Route>
         </Route>
       </Routes>
