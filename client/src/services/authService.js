@@ -1,21 +1,21 @@
 import api from "../api/axios";
 
-export const adminLogin = async (payload) => {
+export const adminLoginApi = async (payload) => {
   const { data } = await api.post("/admin/login", payload);
   return data;
 };
 
-export const login = async (payload) => {
+export const userLoginApi = async (payload) => {
   const { data } = await api.post("/users/login", payload);
   return data;
 };
 
-export const register = async (payload) => {
+export const registerApi = async (payload) => {
   const { data } = await api.post("/users/register", payload);
   return data;
 };
 
-export const fetchProfile = async () => {
+export const getProfileApi = async () => {
   const { data } = await api.get("/users/profile");
   return data;
 };

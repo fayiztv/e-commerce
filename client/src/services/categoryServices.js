@@ -1,21 +1,21 @@
 import api from "../api/axios";
 
-export const createCategory = async (payload) => {
+export const createCategoryApi = async (payload) => {
   const { data } = await api.post("/categories", payload);
   return data;
 };
 
-export const updateCategory = async (categoryId, payload) => {
+export const updateCategoryApi = async (categoryId, payload) => {
   const { data } = await api.patch(`/categories/${categoryId}`, payload);
   return data;
 };
 
-export const deleteCategory = async (categoryId) => {
+export const deleteCategoryApi = async (categoryId) => {
   const { data } = await api.delete(`/categories/${categoryId}`);
   return data;
 };
 
-export const getCategories = async () => {
+export const getCategoriesApi = async () => {
   const { data } = await api.get("/categories");
   return data;
 };

@@ -1,26 +1,26 @@
 import api from "../api/axios";
 
-export const addToCart = async (payload) => {
+export const addToCartApi = async (payload) => {
   const { data } = await api.post("/cart", { payload });
   return data;
 };
 
-export const updateCart = async (payload) => {
+export const updateCartApi = async (payload) => {
   const { data } = await api.patch("/cart", { payload });
   return data;
 };
 
-export const clearCart = async () => {
+export const clearCartApi = async () => {
   const { data } = api.delete("/cart");
   return data;
 };
 
-export const clearCartItem = async (productId) => {
+export const clearCartItemApi = async (productId) => {
   const { data } = api.delete(`/cart/${productId}`);
   return data;
 };
 
-export const getCart = async () => {
+export const getCartApi = async () => {
   const { data } = await api.get("/cart");
   return data;
 };
