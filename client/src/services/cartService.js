@@ -1,15 +1,12 @@
 import api from "../api/axios";
 
-export const addToCart = async (productId) => {
-  const { data } = await api.post("/cart", { product: productId });
+export const addToCart = async (payload) => {
+  const { data } = await api.post("/cart", { payload });
   return data;
 };
 
-export const updateCart = async (productId, quantity) => {
-  const { data } = await api.patch("/cart", {
-    product: productId,
-    quantity: quantity,
-  });
+export const updateCart = async (payload) => {
+  const { data } = await api.patch("/cart", { payload });
   return data;
 };
 
