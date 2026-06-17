@@ -10,16 +10,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// // Global 401 handler — auto logout
-// api.interceptors.response.use(
-//   (res) => res,
-//   (err) => {
-//     if (err.response?.status === 401) {
-//       localStorage.removeItem('token')
-//       window.location.href = '/login'
-//     }
-//     return Promise.reject(err)
-//   }
-// )
+// Global 401 handler — auto logout
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      
+      window.location.href = "/login";
+    }
+    return Promise.reject(err);
+  },
+);
 
-export default api
+export default api;
