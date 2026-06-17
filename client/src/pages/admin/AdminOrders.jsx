@@ -85,19 +85,19 @@ export default function AdminOrders() {
                   View Details
                 </button>
 
-                <button
-                  className="
-                    rounded-lg
-                    bg-black
-                    px-5
-                    py-3
-                    text-white
-                    transition
-                    hover:bg-gray-800
-                  "
-                >
-                  Update Status
-                </button>
+                <select className="flex-1 rounded-xl border px-4 py-3">
+                  <option>Pending</option>
+
+                  <option>Confirmed</option>
+
+                  <option>Processing</option>
+
+                  <option>Shipped</option>
+
+                  <option>Delivered</option>
+
+                  <option>Cancelled</option>
+                </select>
               </div>
             </div>
           </div>
