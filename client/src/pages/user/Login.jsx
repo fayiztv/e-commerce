@@ -3,8 +3,8 @@ import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("user1@gmail.com");
-  const [password, setPassword] = useState("password1");
+  const [email, setEmail] = useState("temp@gmail.com");
+  const [password, setPassword] = useState("111111");
   const [message, setMessage] = useState("");
   const { loading, login, user } = useAuth();
   const navigate = useNavigate();
