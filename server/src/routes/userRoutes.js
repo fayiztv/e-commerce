@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/login", formValidator(["email", "password"]), userLogin);
 router.post(
   "/register",
-  formValidator(["name", "email", "password"]),
+  formValidator(["name", "email", "password", "phone"]),
   userRegister,
 );
 

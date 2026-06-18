@@ -5,7 +5,7 @@ import generateToken from "../utils/generateToken.js";
 
 export const registerService = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -23,6 +23,7 @@ export const registerService = async (req, res, next) => {
     const user = await User.create({
       name,
       email,
+      phone,
       password: hashedPassword,
     });
 
