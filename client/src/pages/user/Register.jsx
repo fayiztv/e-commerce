@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const { loading, register, user } = useAuth();
@@ -16,7 +17,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await register({ name, email, password });
+    const res = await register({ name, email, password, phone });
     if (res.success) {
       navigate("/");
     } else {
@@ -44,6 +45,20 @@ export default function RegisterPage() {
               className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
               required
               onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium">Phone number</label>
+
+            <input
+              type="text"
+              value={phone}
+              maxLength={10}
+              placeholder="Enter your phone number"
+              className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+              required
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 
