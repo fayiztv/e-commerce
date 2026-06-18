@@ -42,6 +42,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+              required
             />
           </div>
 
@@ -54,6 +55,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+              required
             />
           </div>
 
