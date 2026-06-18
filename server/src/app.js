@@ -7,9 +7,15 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.use("/api/test", testRoutes);
 app.use("/api/users", userRoutes);
