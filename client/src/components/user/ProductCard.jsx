@@ -4,12 +4,12 @@ export default function ProductCard({ item }) {
   const inStock = item.stock > 0;
   const navigate = useNavigate();
   return (
-    <div
-      onClick={() => navigate(`/product/${item._id}`)}
-      className="overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-    >
+    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
-      <div className="h-72 bg-gray-200"></div>
+      <div
+        onClick={() => navigate(`/product/${item._id}`)}
+        className="h-55 bg-gray-200"
+      ></div>
 
       {/* Content */}
       <div className="p-5">
@@ -34,7 +34,10 @@ export default function ProductCard({ item }) {
             Add To Cart
           </button>
 
-          <button className="rounded-lg border px-5 transition hover:bg-gray-100">
+          <button
+            onClick={() => navigate(`/product/${item._id}`)}
+            className="rounded-lg border px-5 transition hover:bg-gray-100"
+          >
             View
           </button>
         </div>

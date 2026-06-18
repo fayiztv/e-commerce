@@ -1,27 +1,8 @@
-import { useEffect, useState } from "react";
 import ProductCard from "../../components/user/ProductCard";
-import { getProductsApi } from "../../services/productService";
-import { getCategoriesApi } from "../../services/categoryServices";
+import { useShop } from "../../hooks/useShop";
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await getProductsApi();
-      setProducts(res.data);
-    };
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await getCategoriesApi();
-      setCategories(res.data);
-    };
-    fetchCategories();
-  }, []);
+  const { products, categories } = useShop()
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">

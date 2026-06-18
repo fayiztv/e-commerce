@@ -1,30 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
-import { useEffect, useState } from "react";
-import { getCategoriesApi } from "../../services/categoryServices";
-import { getProductsApi } from "../../services/productService";
+import { useShop } from "../../hooks/useShop";
 
 export default function Home() {
   const navigate = useNavigate();
   const handeClick = () => navigate("/products");
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await getCategoriesApi();
-      setCategories(res.data);
-    };
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await getProductsApi();
-      setProducts(res.data);
-    };
-    fetchProducts();
-  }, []);
+  const { products, categories } = useShop()
 
   return (
     <div>
