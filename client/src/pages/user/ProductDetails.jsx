@@ -15,8 +15,7 @@ export default function ProductDetailsPage() {
   //   &&
   //   p._id != product._id,
   // );
-
-  const relatedProducts = products.slice(0, 4);
+  const relatedProducts = products?.slice(0, 4);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -79,14 +78,13 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </div>
-
       {/* Related Products */}
       <div className="mt-24">
         <h2 className="mb-10 text-3xl font-bold">Related Products</h2>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {relatedProducts.map((item) => (
-            <ProductCard item={item} />
+          {relatedProducts?.map((item) => (
+            <ProductCard key={item?._id} item={item} />
           ))}
         </div>
       </div>

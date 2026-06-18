@@ -17,6 +17,7 @@ import AdminCategories from "../pages/admin/AdminCategories";
 import AdminOrders from "../pages/admin/AdminOrders";
 import AdminLoginPage from "../pages/admin/AdminLogin";
 import AdminOrderDetails from "../pages/admin/AdminOrderDetails";
+import OrdersPage from "../pages/user/Orders";
 
 export default function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ export default function AppRoutes() {
           <Route element={<UserPrivatRoute />}>
             <Route path="/cart" element={<CartPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/orders" element={<OrdersPage />} />
           </Route>
 
         </Route>

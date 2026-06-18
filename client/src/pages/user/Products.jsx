@@ -1,8 +1,9 @@
+import NoDataHandler from "../../components/common/NoDataHandler";
 import ProductCard from "../../components/user/ProductCard";
 import { useShop } from "../../hooks/useShop";
 
 export default function ProductsPage() {
-  const { products, categories } = useShop()
+  const { products, categories } = useShop();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
@@ -26,24 +27,33 @@ export default function ProductsPage() {
           <div className="mb-8">
             <h3 className="mb-3 font-medium">Categories</h3>
 
-            <div className="space-y-3">
-              {categories?.map((item) => (
-                <label key={item._id} className="flex gap-2">
-                  <input type="checkbox" />
-                  {item.name}
-                </label>
-              ))}
-            </div>
+            {categories?.length === 0 || !categories ? (
+              <NoDataHandler name="categories" />
+            ) : (
+              <div className="space-y-3">
+                {categories?.map((item) => (
+                  <label key={item._id} className="flex gap-2">
+                    <input type="checkbox" />
+                    {item.name}
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Product Grid */}
+
         <div className="flex-1">
-          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-            {products?.map((item) => (
-              <ProductCard key={item._id} item={item} />
-            ))}
-          </div>
+          {products?.length === 0 || !products ? (
+            <NoDataHandler name="products" />
+          ) : (
+            <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+              {products?.map((item) => (
+                <ProductCard key={item._id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

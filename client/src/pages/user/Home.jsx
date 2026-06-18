@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import { useShop } from "../../hooks/useShop";
+import NoDataHandler from "../../components/common/NoDataHandler";
 
 export default function Home() {
   const navigate = useNavigate();
   const handeClick = () => navigate("/products");
-  const { products, categories } = useShop()
+  const { products, categories } = useShop();
 
   return (
     <div>
@@ -29,17 +30,20 @@ export default function Home() {
         <h2 className="mb-10 text-center text-3xl font-bold">
           Shop By Category
         </h2>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {categories?.map((item) => (
-            <div
-              key={item._id}
-              className="rounded-2xl border p-10 text-center shadow-sm transition hover:shadow-lg"
-            >
-              <h3 className="text-xl font-semibold">{item.name}</h3>
-            </div>
-          ))}
-        </div>
+        {categories?.length === 0 || !categories ? (
+          <NoDataHandler name="categories" />
+        ) : (
+          <div className="grid gap-6 md:grid-cols-3">
+            {categories?.map((item) => (
+              <div
+                key={item._id}
+                className="rounded-2xl border p-10 text-center shadow-sm transition hover:shadow-lg"
+              >
+                <h3 className="text-xl font-semibold">{item.name}</h3>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Featured Products */}
@@ -49,26 +53,30 @@ export default function Home() {
             Featured Products
           </h2>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {products?.slice(-4).map((item) => (
-              <div
-                key={item}
-                className="overflow-hidden rounded-2xl bg-white shadow transition hover:-translate-y-2"
-              >
-                <div className="h-60 bg-gray-200"></div>
+          {products?.length === 0 || !products ? (
+            <NoDataHandler name="products" />
+          ) : (
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {products?.slice(-4).map((item) => (
+                <div
+                  key={item}
+                  className="overflow-hidden rounded-2xl bg-white shadow transition hover:-translate-y-2"
+                >
+                  <div className="h-60 bg-gray-200"></div>
 
-                <div className="p-5">
-                  <h3 className="mb-2 text-lg font-semibold">{item.name}</h3>
+                  <div className="p-5">
+                    <h3 className="mb-2 text-lg font-semibold">{item.name}</h3>
 
-                  <p className="mb-4 text-gray-500">₹{item.price}</p>
+                    <p className="mb-4 text-gray-500">₹{item.price}</p>
 
-                  <button className="w-full rounded-lg bg-black py-3 text-white">
-                    Add To Cart
-                  </button>
+                    <button className="w-full rounded-lg bg-black py-3 text-white">
+                      Add To Cart
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
