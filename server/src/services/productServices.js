@@ -77,7 +77,10 @@ export const getProductDetailsService = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate({
+      path: "category",
+      select: "name"
+    });
 
     if (!product) {
       return sendResponse({
