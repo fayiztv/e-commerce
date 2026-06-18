@@ -4,7 +4,6 @@ import {
   registerApi,
   userLoginApi,
 } from "../services/authService";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
@@ -16,7 +15,6 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const saveSession = (userData, token) => {
     setUser(userData);
@@ -78,8 +76,7 @@ export function AuthProvider({ children }) {
     setToken(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    navigate("/login");
-  }, [navigate]);
+  }, []);
 
   const value = useMemo(
     () => ({

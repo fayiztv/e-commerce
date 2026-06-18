@@ -22,7 +22,7 @@ export default function AppRoutes() {
   return (
     <>
       <Routes>
-        // user routes
+        {/* user routes */}
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
 
@@ -38,7 +38,7 @@ export default function AppRoutes() {
 
         </Route>
 
-        // admin routess
+         {/* admin routess */}
 
         <Route path="admin/login" element={<AdminLoginPage/>}/>
 

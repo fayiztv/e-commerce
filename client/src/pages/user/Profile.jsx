@@ -1,4 +1,8 @@
+import { useLogout } from "../../hooks/useLogout";
+
 export default function ProfilePage() {
+
+   const handleLogout = useLogout()
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
 
@@ -98,7 +102,7 @@ export default function ProfilePage() {
 
         </div>
 
-        <div className="cursor-pointer rounded-2xl border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div onClick={handleLogout} className="cursor-pointer rounded-2xl border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
 
           <h3 className="mb-2 text-xl font-semibold text-red-500">
             Logout

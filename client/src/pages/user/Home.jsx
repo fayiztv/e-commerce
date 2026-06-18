@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/common/Button";
+
 export default function Home() {
+    const navigate = useNavigate()
+    const handeClick = () => navigate("/products")
   return (
     <div>
 
@@ -14,9 +19,7 @@ export default function Home() {
             Shop premium quality products with amazing deals and fast delivery.
           </p>
 
-          <button className="rounded-lg bg-black px-8 py-4 text-white transition hover:bg-gray-800">
-            Shop Now
-          </button>
+          <Button text="Shop Now" style="px-8 py-4" onClick={handeClick}/>
 
         </div>
       </section>
