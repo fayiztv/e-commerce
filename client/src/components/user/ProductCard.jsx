@@ -1,8 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../hooks/useCart";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ item }) {
   const inStock = item.stock > 0;
   const navigate = useNavigate();
+  const { addToCart, addingId } = useCart();
+
+  const handleAddToCart = async (id) => {
+    const res = await addToCart(id);
+    res.success ? toast.success(res.message) : toast.error(res.message);
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
@@ -28,10 +37,11 @@ export default function ProductCard({ item }) {
 
         <div className="flex gap-3">
           <button
-            disabled={!inStock}
+            disabled={!inStock || addingId === item._id}
+            onClick={() => handleAddToCart(item._id)}
             className="flex-1 rounded-lg bg-black py-3 text-white transition hover:bg-gray-800 disabled:bg-gray-400"
           >
-            Add To Cart
+            {addingId === item._id ? "Adding..." : "Add To Cart"}
           </button>
 
           <button

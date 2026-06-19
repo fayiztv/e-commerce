@@ -1,7 +1,7 @@
 import api from "../api/axios";
 
-export const addToCartApi = async (payload) => {
-  const { data } = await api.post("/cart", { payload });
+export const addToCartApi = async (product) => {
+  const { data } = await api.post("/cart", { product });
   return data;
 };
 

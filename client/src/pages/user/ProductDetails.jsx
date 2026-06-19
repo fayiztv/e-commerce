@@ -3,12 +3,20 @@ import ProductCard from "../../components/user/ProductCard";
 import { getProductDetailsApi } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import { useShop } from "../../hooks/useShop";
+import { useCart } from "../../hooks/useCart";
+import toast from "react-hot-toast";
 
 export default function ProductDetailsPage() {
   const [product, setProduct] = useState({});
   const [inStock, setInStock] = useState({});
   const { id } = useParams();
   const { products } = useShop();
+  const { addingId, addToCart } = useCart();
+
+  const handleAddToCart = async (id) => {
+    const res = await addToCart(id);
+    res.success ? toast.success(res.message) : toast.error(res.message);
+  };
 
   // const relatedProducts = products.filter(
   //   (p) => p.category._id === product.category._id
@@ -63,10 +71,11 @@ export default function ProductDetailsPage() {
           {/* Buttons */}
           <div className="flex flex-col gap-4 md:flex-row">
             <button
-              disabled={!inStock}
+              disabled={!inStock || addingId === product?._id}
+              onClick={() => handleAddToCart(product?._id)}
               className="flex-1 rounded-xl bg-black py-4 text-white transition hover:bg-gray-800 disabled:bg-gray-400"
             >
-              Add To Cart
+              {addingId === product?._id ? "Adding..." : "Add To Cart"}
             </button>
 
             <button
