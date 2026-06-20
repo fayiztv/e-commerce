@@ -175,7 +175,7 @@ export const removeCartItemService = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ user: userId });
-    const product = req.params;
+    const product = req.params.id;
 
     if (!cart) {
       return sendResponse({

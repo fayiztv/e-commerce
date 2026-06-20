@@ -9,7 +9,6 @@ export default function Navbar() {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/products", label: "Products" },
-    { to: "/orders", label: "Orders" },
     { to: "/cart", label: "Cart" },
     { to: "/profile", label: "Profile" },
   ];

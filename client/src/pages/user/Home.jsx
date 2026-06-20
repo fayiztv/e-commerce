@@ -2,11 +2,20 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import { useShop } from "../../hooks/useShop";
 import NoDataHandler from "../../components/common/NoDataHandler";
+import toast from "react-hot-toast";
+import { useCart } from "../../hooks/useCart";
 
 export default function Home() {
   const navigate = useNavigate();
   const handeClick = () => navigate("/products");
   const { products, categories } = useShop();
+
+  const { addToCart, addingId } = useCart();
+
+  const handleAddToCart = async (id) => {
+    const res = await addToCart(id);
+    res.success ? toast.success(res.message) : toast.error(res.message);
+  };
 
   return (
     <div>
@@ -57,24 +66,33 @@ export default function Home() {
             <NoDataHandler name="products" />
           ) : (
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {products?.slice(-4).map((item) => (
-                <div
-                  key={item}
-                  className="overflow-hidden rounded-2xl bg-white shadow transition hover:-translate-y-2"
-                >
-                  <div className="h-60 bg-gray-200"></div>
+              {products?.slice(0, 4).map((item) => {
+                const inStock = item.stock > 0;
+                return (
+                  <div
+                    key={item}
+                    className="overflow-hidden rounded-2xl bg-white shadow transition hover:-translate-y-2"
+                  >
+                    <div className="h-60 bg-gray-200"></div>
 
-                  <div className="p-5">
-                    <h3 className="mb-2 text-lg font-semibold">{item.name}</h3>
+                    <div className="p-5">
+                      <h3 className="mb-2 text-lg font-semibold">
+                        {item.name}
+                      </h3>
 
-                    <p className="mb-4 text-gray-500">₹{item.price}</p>
+                      <p className="mb-4 text-gray-500">₹{item.price}</p>
 
-                    <button className="w-full rounded-lg bg-black py-3 text-white">
-                      Add To Cart
-                    </button>
+                      <button
+                        disabled={!inStock || addingId === item._id}
+                        onClick={() => handleAddToCart(item._id)}
+                        className="w-full rounded-lg bg-black py-3 text-white disabled:bg-gray-400"
+                      >
+                        {addingId === item._id ? "Adding..." : "Add To Cart"}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

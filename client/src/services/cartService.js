@@ -6,17 +6,18 @@ export const addToCartApi = async (product) => {
 };
 
 export const updateCartApi = async (payload) => {
-  const { data } = await api.patch("/cart", { payload });
+  const { data } = await api.patch("/cart", payload);
   return data;
 };
 
 export const clearCartApi = async () => {
-  const { data } = api.delete("/cart");
+  const { data } = await api.delete("/cart");
   return data;
 };
 
 export const clearCartItemApi = async (productId) => {
-  const { data } = api.delete(`/cart/${productId}`);
+  const { data } = await api.delete(`/cart/${productId}`);
+  
   return data;
 };
 
