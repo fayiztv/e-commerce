@@ -1,5 +1,32 @@
 import mongoose from "mongoose";
 
+const userAddressSchema = new mongoose.Schema(
+  {
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    pincode: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -21,6 +48,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    address: [userAddressSchema],
     isAdmin: {
       type: Boolean,
       default: false,

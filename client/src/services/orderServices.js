@@ -2,7 +2,7 @@ import api from "../api/axios";
 
 // user orders apis
 
-export const createOrdeApir = async (payload) => {
+export const createOrderApi = async (payload) => {
   const { data } = await api.post("/orders", payload);
   return data;
 };

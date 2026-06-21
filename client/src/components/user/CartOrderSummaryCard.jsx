@@ -1,7 +1,13 @@
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { createOrderApi } from "../../services/orderServices";
 
-export default function CartOrderSummaryCard({ items }) {
-  const subtotal = items.reduce(
+export default function CartOrderSummaryCard({
+  items,
+  isOrder = false,
+  shippingAddress,
+}) {
+  const subtotal = items?.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
   );
@@ -10,7 +16,41 @@ export default function CartOrderSummaryCard({ items }) {
 
   const total = subtotal + shippingFee;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const handleClick = async () => {
+    if (!isOrder) {
+      navigate("/checkout");
+    } else {
+      try {
+        const isAnyFieldEmpty = Object.values(shippingAddress).some(
+          (value) => !value,
+        );
+
+        if (isAnyFieldEmpty) {
+          toast.error("Please fill all shipping details");
+          return;
+        }
+        const orderItems = items.map((item) => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+        }));
+
+        const res = await createOrderApi({
+          items: orderItems,
+          shippingAddress,
+        });
+        if (res.success) {
+          navigate("/orders");
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+  };
 
   return (
     <div className="h-fit rounded-2xl border p-8 shadow-sm lg:w-96">
@@ -46,8 +86,11 @@ export default function CartOrderSummaryCard({ items }) {
         </div>
       </div>
 
-      <button onClick={()=>navigate("/checkout")} className="mt-8 w-full rounded-xl bg-black py-4 text-white transition hover:bg-gray-800">
-        Proceed to Checkout
+      <button
+        onClick={handleClick}
+        className="mt-8 w-full rounded-xl bg-black py-4 text-white transition hover:bg-gray-800"
+      >
+        {isOrder ? "Place Order" : "Proceed to Checkout"}
       </button>
     </div>
   );
